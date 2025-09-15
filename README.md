@@ -1,31 +1,25 @@
 # Mobile Tests – WebdriverIO + Appium (Native Demo App)
 
-Automação mobile para o **Native Demo App** (WebdriverIO). 10 cenários, POM, data-driven, screenshots em falhas e **Allure Report**.
+![Mobile CI](https://github.com/mtlopes/wdio-native-demo-app-tests/actions/workflows/ci.yml/badge.svg)
 
-## Pré-requisitos
-- Node 18+, Java JDK 11+
-- Android SDK configurado (`ANDROID_HOME`, `PATH`)
-- Emulador Android criado e rodando
-- (opcional) iOS/Xcode em macOS
+Automação mobile para o **Native Demo App** usando **WebdriverIO 8 + Appium 2**.  
+Projeto com **10 cenários**, **Page Object Model**, **data-driven**, **screenshots em falhas** e **Allure Report**.  
+CI configurado em **GitHub Actions** (instala dependências).
 
-Verifique o ambiente:
+---
+
+## Stack
+- Node.js 18+ / npm 10
+- WebdriverIO 8, Mocha, Chai
+- Appium 2 (service do WDIO sobe o servidor)
+- Allure Reporter
+
+## Pré-requisitos (local)
+- **Java JDK 11+**
+- **Android SDK** configurado (`ANDROID_HOME` e `platform-tools` no PATH)
+- **Emulador Android** criado (AVD) e rodando
+
+Verificação opcional do ambiente:
 ```bash
-npm run doctor
-```
-
-## Baixar o app
-Baixe o `.apk` / `.app` em: https://github.com/webdriverio/native-demo-app/releases  
-Coloque em `apps/Android-NativeDemoApp.apk` e `apps/iOS-NativeDemoApp.app` (ou use `APP_ANDROID`/`APP_IOS`).
-
-## Instalar e executar
-```bash
-npm ci
-npm run android   # com emulador Android rodando
-# ou
-npm run ios       # em macOS com simulador
-```
-
-## Relatório (Allure)
-```bash
-npm run report
-```
+java -version
+adb --version

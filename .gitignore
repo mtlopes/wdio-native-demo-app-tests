@@ -8,3 +8,5 @@ screenshots
 .env
 apps/*.apk
 apps/*.app
+*.zip
+npx

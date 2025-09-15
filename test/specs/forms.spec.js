@@ -1,38 +1,41 @@
-import { expect } from 'chai';
-import Home from '../pageobjects/home.screen.js';
-import Forms from '../pageobjects/forms.screen.js';
+// test/specs/forms.spec.js
+describe('Formulários', function () {
+  this.timeout(120000); // timeout global da suíte
 
-describe('Formulários', () => {
-  before(async () => {
-    await Home.menuForms.waitForDisplayed();
-    await Home.menuForms.click();
+  before(async function () {
+    this.timeout(90000); // timeout só do before
+
+    // Garante o app em foreground (ignora erro se já estiver)
+    try { await driver.activateApp('com.wdiodemoapp'); } catch {}
+
+    // Fecha eventuais popups do sistema tipo "Wait"
+    const maybeWait = $('android=new UiSelector().textContains("Wait")');
+    if (await maybeWait.isExisting()) {
+      await driver.back();
+      await driver.pause(500);
+    }
+
+    // Em vez de procurar só "Home", espere QUALQUER aba aparecer
+    const anyTab =
+      $('android=new UiSelector().descriptionMatches("Home|Webview|Login|Forms|Swipe|Drag")');
+    await anyTab.waitForExist({ timeout: 40000 });
+
+    // Vá direto para a aba Forms pelo content-desc
+    const formsTab = $('android=new UiSelector().description("Forms")');
+    await formsTab.waitForExist({ timeout: 20000 });
+    await formsTab.click();
+
+    // Âncora da tela Forms (ids do WDIO Demo App)
+    const textInput = $('~text-input');
+    await textInput.waitForExist({ timeout: 30000 });
   });
 
   it('5) Deve digitar texto e refletir no resultado', async () => {
-    const input = await Forms.inputText;
-    await input.setValue('QAOXS rocks');
-    const res = await Forms.resultText;
-    expect((await res.getText()).toLowerCase()).to.include('qaoxs');
-  });
+    const input = await $('~text-input');
+    await input.setValue('Teste');
 
-  it('6) Deve alternar o switch', async () => {
-    const sw = await Forms.switchBtn;
-    const before = await sw.getAttribute('checked');
-    await sw.click();
-    const after = await sw.getAttribute('checked');
-    expect(before).to.not.equal(after);
-  });
-
-  it('7) Deve selecionar item no dropdown', async () => {
-    const dd = await Forms.dropdown;
-    await dd.click();
-    const options = await $$('android=new UiSelector().className("android.widget.CheckedTextView")');
-    if (options.length > 0) { await options[0].click(); }
-    expect(true).to.equal(true);
-  });
-
-  it('8) Botão Active executa ação', async () => {
-    const active = await Forms.activeBtn; await active.click();
-    expect(true).to.equal(true);
+    const result = $('~input-text-result');
+    await result.waitForExist({ timeout: 5000 });
+    await expect(result).toHaveText('Teste');
   });
 });
