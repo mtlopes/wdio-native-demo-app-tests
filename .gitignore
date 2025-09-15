@@ -1,0 +1,10 @@
+node_modules
+allure-results
+allure-report
+reports
+test-results
+screenshots
+.DS_Store
+.env
+apps/*.apk
+apps/*.app
