@@ -20,4 +20,5 @@ jobs:
         run: npm config set registry https://registry.npmjs.org/
 
       - name: Install deps
-        run: npm ci || npm install --no-audit --no-fund
+        run: npm install --no-optional --no-audit --no-fund
+
